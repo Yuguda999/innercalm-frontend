@@ -26,6 +26,9 @@ interface Recommendation {
   is_completed: boolean
   effectiveness_rating?: number
   created_at: string
+  image_url?: string
+  gif_url?: string
+  illustration_prompt?: string
 }
 
 const RecommendationsPage = () => {

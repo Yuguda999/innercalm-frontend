@@ -40,6 +40,9 @@ interface FullRecommendation {
   notes?: string
   created_at: string
   completed_at?: string
+  image_url?: string
+  gif_url?: string
+  illustration_prompt?: string
 }
 
 const RecommendationModal: React.FC<RecommendationModalProps> = ({
@@ -62,7 +65,7 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({
 
   const fetchRecommendation = async () => {
     if (!recommendationId) return
-    
+
     setLoading(true)
     try {
       const data = await recommendationsAPI.getRecommendation(recommendationId)
@@ -92,17 +95,22 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({
     return <IconComponent className="h-8 w-8" />
   }
 
-  const getTypeImage = (type: string) => {
-    const images: { [key: string]: string } = {
-      meditation: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&crop=center',
-      journaling: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=200&fit=crop&crop=center',
-      breathing: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=200&fit=crop&crop=center',
-      music: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop&crop=center',
-      mindfulness: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=200&fit=crop&crop=center',
-      exercise: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&crop=center',
-      relaxation: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=400&h=200&fit=crop&crop=center'
+  const getRecommendationImage = (recommendation: FullRecommendation) => {
+    // Use custom SVG illustration if available
+    if (recommendation.image_url) {
+      return recommendation.image_url
     }
-    return images[type.toLowerCase()] || images.relaxation
+
+    // Fallback to type-based images
+    const images: { [key: string]: string } = {
+      breathing_exercise: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=200&fit=crop&crop=center',
+      mindfulness_practice: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=200&fit=crop&crop=center',
+      journaling_prompt: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=200&fit=crop&crop=center',
+      cognitive_reframing: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=200&fit=crop&crop=center',
+      physical_activity: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&crop=center',
+      relaxation_technique: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=400&h=200&fit=crop&crop=center'
+    }
+    return images[recommendation.type] || images.relaxation_technique
   }
 
   const getDifficultyColor = (level: number) => {
@@ -129,17 +137,17 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({
 
   const handleComplete = async () => {
     if (!recommendation) return
-    
+
     try {
       await recommendationsAPI.updateRecommendation(recommendation.id, {
         is_completed: true,
         effectiveness_rating: rating > 0 ? rating : undefined,
         notes: notes.trim() || undefined
       })
-      
+
       onComplete(recommendation.id, rating > 0 ? rating : undefined)
       setShowRating(true)
-      
+
       // Update local state
       setRecommendation(prev => prev ? {
         ...prev,
@@ -154,19 +162,19 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({
 
   const handleRatingSubmit = async () => {
     if (!recommendation || rating === 0) return
-    
+
     try {
       await recommendationsAPI.updateRecommendation(recommendation.id, {
         effectiveness_rating: rating,
         notes: notes.trim() || undefined
       })
-      
+
       setRecommendation(prev => prev ? {
         ...prev,
         effectiveness_rating: rating,
         notes: notes.trim() || undefined
       } : null)
-      
+
       setShowRating(false)
     } catch (error) {
       console.error('Error submitting rating:', error)
@@ -204,11 +212,20 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({
             <div>
               {/* Header with Image */}
               <div className="relative">
-                <img
-                  src={getTypeImage(recommendation.type)}
-                  alt={recommendation.type}
-                  className="w-full h-48 object-cover rounded-t-2xl"
-                />
+                {recommendation.image_url && recommendation.image_url.startsWith('data:image/svg+xml') ? (
+                  <div
+                    className="w-full h-48 rounded-t-2xl bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center"
+                    dangerouslySetInnerHTML={{
+                      __html: atob(recommendation.image_url.split(',')[1])
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={getRecommendationImage(recommendation)}
+                    alt={recommendation.illustration_prompt || recommendation.type}
+                    className="w-full h-48 object-cover rounded-t-2xl"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-t-2xl" />
                 <button
                   onClick={onClose}

@@ -32,6 +32,7 @@ const Navbar = () => {
     ? [
         { name: 'Dashboard', path: '/dashboard' },
         { name: 'Chat', path: '/chat' },
+        { name: 'Trauma Mapping', path: '/trauma-mapping' },
         { name: 'Recommendations', path: '/recommendations' },
         { name: 'Analytics', path: '/analytics' },
       ]

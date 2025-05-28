@@ -9,6 +9,7 @@ import ChatPage from './pages/ChatPage'
 import RecommendationsPage from './pages/RecommendationsPage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import ProfilePage from './pages/ProfilePage'
+import TraumaMappingPage from './pages/TraumaMappingPage'
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -70,6 +71,14 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/trauma-mapping"
+              element={
+                <ProtectedRoute>
+                  <TraumaMappingPage />
                 </ProtectedRoute>
               }
             />

@@ -269,4 +269,93 @@ export const usersAPI = {
   },
 }
 
+// Trauma Mapping API
+export const traumaMappingAPI = {
+  // Life Events
+  getLifeEvents: async (limit?: number, offset?: number) => {
+    const params = new URLSearchParams()
+    if (limit) params.append('limit', limit.toString())
+    if (offset) params.append('offset', offset.toString())
+    const response = await api.get(`/trauma-mapping/life-events?${params}`)
+    return response.data
+  },
+
+  getLifeEvent: async (eventId: number) => {
+    const response = await api.get(`/trauma-mapping/life-events/${eventId}`)
+    return response.data
+  },
+
+  createLifeEvent: async (eventData: any) => {
+    const response = await api.post('/trauma-mapping/life-events', eventData)
+    return response.data
+  },
+
+  updateLifeEvent: async (eventId: number, eventData: any) => {
+    const response = await api.put(`/trauma-mapping/life-events/${eventId}`, eventData)
+    return response.data
+  },
+
+  deleteLifeEvent: async (eventId: number) => {
+    const response = await api.delete(`/trauma-mapping/life-events/${eventId}`)
+    return response.data
+  },
+
+  // Timeline Analysis
+  getTimelineAnalysis: async () => {
+    const response = await api.get('/trauma-mapping/timeline-analysis')
+    return response.data
+  },
+
+  // Trauma Mappings
+  getTraumaMappings: async (lifeEventId?: number) => {
+    const params = lifeEventId ? `?life_event_id=${lifeEventId}` : ''
+    const response = await api.get(`/trauma-mapping/trauma-mappings${params}`)
+    return response.data
+  },
+
+  createTraumaMapping: async (mappingData: any) => {
+    const response = await api.post('/trauma-mapping/trauma-mappings', mappingData)
+    return response.data
+  },
+
+  // Reframe Sessions
+  getReframeSessions: async (status?: string, limit?: number) => {
+    const params = new URLSearchParams()
+    if (status) params.append('status_filter', status)
+    if (limit) params.append('limit', limit.toString())
+    const response = await api.get(`/trauma-mapping/reframe-sessions?${params}`)
+    return response.data
+  },
+
+  getReframeSession: async (sessionId: number) => {
+    const response = await api.get(`/trauma-mapping/reframe-sessions/${sessionId}`)
+    return response.data
+  },
+
+  createReframeSession: async (sessionData: any) => {
+    const response = await api.post('/trauma-mapping/reframe-sessions', sessionData)
+    return response.data
+  },
+
+  updateReframeSession: async (sessionId: number, sessionData: any) => {
+    const response = await api.put(`/trauma-mapping/reframe-sessions/${sessionId}`, sessionData)
+    return response.data
+  },
+
+  startGuidedSession: async (sessionId: number) => {
+    const response = await api.post(`/trauma-mapping/reframe-sessions/${sessionId}/guided-session`)
+    return response.data
+  },
+
+  processSessionResponse: async (sessionId: number, responseData: any) => {
+    const response = await api.post(`/trauma-mapping/reframe-sessions/${sessionId}/process-response`, responseData)
+    return response.data
+  },
+
+  completeReframeSession: async (sessionId: number) => {
+    const response = await api.post(`/trauma-mapping/reframe-sessions/${sessionId}/complete`)
+    return response.data
+  }
+}
+
 export default api

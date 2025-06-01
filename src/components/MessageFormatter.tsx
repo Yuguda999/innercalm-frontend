@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { User } from 'lucide-react'
 
 interface MessageFormatterProps {
   content: string
@@ -103,60 +104,135 @@ const MessageFormatter: React.FC<MessageFormatterProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-6`}
+      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 0.4,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        type: "spring",
+        stiffness: 100
+      }}
+      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 md:mb-6 px-1`}
     >
-      <div className={`max-w-[80%] ${isUser ? 'order-2' : 'order-1'}`}>
+      <div className={`max-w-[85%] md:max-w-[80%] ${isUser ? 'order-2' : 'order-1'}`}>
         {!isUser && getApproachBadge()}
 
-        <div
+        <motion.div
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
           className={`
-            relative px-4 py-3 rounded-2xl shadow-sm
+            relative px-4 py-3 md:px-5 md:py-4 rounded-3xl shadow-lg backdrop-blur-sm
             ${isUser
-              ? 'bg-primary-500 text-white rounded-br-md'
-              : 'bg-white dark:bg-calm-800 border border-calm-200 dark:border-calm-700 rounded-bl-md'
+              ? `bg-gradient-to-br from-serenity-500 via-serenity-600 to-wellness-600
+                 dark:from-serenity-400 dark:via-serenity-500 dark:to-wellness-500
+                 text-white dark:text-calm-900
+                 shadow-serenity-500/30 dark:shadow-serenity-400/20
+                 rounded-br-lg border border-serenity-400/20`
+              : `bg-gradient-to-br from-white/95 via-wellness-50/80 to-white/95
+                 dark:from-calm-800/95 dark:via-calm-700/80 dark:to-calm-800/95
+                 border border-wellness-200/60 dark:border-calm-600/60
+                 shadow-wellness-500/10 dark:shadow-calm-900/20
+                 rounded-bl-lg text-calm-900 dark:text-calm-100`
             }
             ${isStreaming ? 'animate-pulse' : ''}
+            transition-all duration-300 ease-out
+            hover:shadow-xl hover:scale-[1.02]
           `}
         >
-          <div className={`${isUser ? 'text-white' : 'text-calm-800 dark:text-calm-200'}`}>
+          {/* Enhanced content with better typography */}
+          <div className={`
+            ${isUser
+              ? 'text-white dark:text-calm-900 font-medium'
+              : 'text-calm-900 dark:text-calm-100'
+            }
+            leading-relaxed text-sm md:text-base
+          `}>
             {formatContent(content)}
           </div>
 
+          {/* Enhanced streaming indicator */}
           {isStreaming && !isUser && (
-            <div className="flex items-center mt-2">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center mt-3 pt-2 border-t border-wellness-200/50 dark:border-calm-600/50"
+            >
               <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <motion.div
+                  className="w-2 h-2 bg-gradient-to-r from-serenity-400 to-wellness-400 rounded-full"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                />
+                <motion.div
+                  className="w-2 h-2 bg-gradient-to-r from-wellness-400 to-accent-400 rounded-full"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                />
+                <motion.div
+                  className="w-2 h-2 bg-gradient-to-r from-accent-400 to-serenity-400 rounded-full"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                />
               </div>
-              <span className="ml-2 text-xs text-calm-500 dark:text-calm-400">InnerCalm is typing...</span>
-            </div>
+              <span className="ml-3 text-xs text-calm-600 dark:text-calm-400 font-medium">
+                InnerCalm is reflecting...
+              </span>
+            </motion.div>
           )}
-        </div>
 
-        {/* Message tail */}
+          {/* Subtle glow effect for user messages */}
+          {isUser && (
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-serenity-400/20 to-wellness-400/20 dark:from-serenity-300/10 dark:to-wellness-300/10 -z-10 blur-sm"></div>
+          )}
+        </motion.div>
+
+        {/* Modern message tail with gradient */}
         <div className={`
-          w-0 h-0 mt-1
+          w-0 h-0 mt-1 transition-all duration-300
           ${isUser
-            ? 'ml-auto mr-3 border-l-[12px] border-l-transparent border-t-[12px] border-t-primary-500'
-            : 'ml-3 border-r-[12px] border-r-transparent border-t-[12px] border-t-white dark:border-t-calm-800'
+            ? `ml-auto mr-4
+               border-l-[14px] border-l-transparent
+               border-t-[14px] border-t-serenity-600
+               dark:border-t-serenity-500
+               drop-shadow-sm`
+            : `ml-4
+               border-r-[14px] border-r-transparent
+               border-t-[14px] border-t-white
+               dark:border-t-calm-800
+               drop-shadow-sm`
           }
         `} />
       </div>
 
-      {/* Avatar */}
-      <div className={`
-        w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-        ${isUser
-          ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 order-1 mr-3'
-          : 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 order-2 ml-3'
-        }
-      `}>
-        {isUser ? 'You' : '🧘'}
-      </div>
+      {/* Enhanced Avatar with wellness design */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+        className={`
+          w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-sm md:text-base font-bold
+          shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110
+          ${isUser
+            ? `bg-gradient-to-br from-serenity-100 via-wellness-100 to-accent-100
+               dark:from-serenity-900/40 dark:via-wellness-900/40 dark:to-accent-900/40
+               text-serenity-700 dark:text-serenity-300
+               border border-serenity-200/50 dark:border-serenity-700/50
+               order-1 mr-3 shadow-serenity-500/20`
+            : `bg-gradient-to-br from-accent-100 via-wellness-100 to-serenity-100
+               dark:from-accent-900/40 dark:via-wellness-900/40 dark:to-serenity-900/40
+               text-accent-700 dark:text-accent-300
+               border border-accent-200/50 dark:border-accent-700/50
+               order-2 ml-3 shadow-accent-500/20`
+          }
+        `}
+      >
+        {isUser ? (
+          <User className="h-5 w-5 md:h-6 md:w-6" />
+        ) : (
+          <span className="text-lg md:text-xl">🧘</span>
+        )}
+      </motion.div>
     </motion.div>
   )
 }

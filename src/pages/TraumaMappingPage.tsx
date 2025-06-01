@@ -10,7 +10,10 @@ import {
   Filter,
   BarChart3,
   Lightbulb,
-  Target
+  Target,
+  Sparkles,
+  Activity,
+  Shield
 } from 'lucide-react'
 import LifeTimeline from '../components/trauma-mapping/LifeTimeline'
 import EmotionHeatmap from '../components/trauma-mapping/EmotionHeatmap'
@@ -169,21 +172,30 @@ const TraumaMappingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-calm-900 dark:via-calm-800 dark:to-calm-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-wellness-50/30 via-serenity-50/20 to-accent-50/30 dark:from-calm-950 dark:via-calm-900 dark:to-calm-800">
+      <div className="max-w-md md:max-w-4xl lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="mb-8"
+          transition={{ duration: 0.5 }}
+          className="mb-8 pt-6"
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-calm-900 dark:text-calm-100 mb-2">
-                Trauma Mapping & Inner Wound Explorer
-              </h1>
-              <p className="text-calm-600 dark:text-calm-300">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex-1">
+              <div className="flex items-center mb-4">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="bg-gradient-to-br from-wellness-400 to-serenity-400 p-3 rounded-2xl shadow-lg mr-3"
+                >
+                  <Brain className="h-6 w-6 text-white" />
+                </motion.div>
+                <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-wellness-600 to-serenity-600 bg-clip-text text-transparent">
+                  Inner Wound Explorer
+                </h1>
+              </div>
+              <p className="text-calm-600 dark:text-calm-300 leading-relaxed max-w-2xl">
                 Explore your life timeline, identify patterns, and begin healing through AI-guided reframing
               </p>
             </div>
@@ -191,9 +203,14 @@ const TraumaMappingPage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleCreateEvent}
-              className="btn-primary flex items-center gap-2"
+              className="bg-gradient-to-r from-wellness-400 to-serenity-500 hover:from-wellness-500 hover:to-serenity-600 text-white px-6 py-3 rounded-2xl font-medium flex items-center gap-2 shadow-lg touch-target"
             >
-              <Plus className="h-5 w-5" />
+              <motion.div
+                animate={{ rotate: [0, 90, 180, 270, 360] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                <Plus className="h-5 w-5" />
+              </motion.div>
               Add Life Event
             </motion.button>
           </div>
@@ -204,40 +221,68 @@ const TraumaMappingPage = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8"
           >
-            <div className="card text-center">
-              <Calendar className="h-8 w-8 text-primary-500 mx-auto mb-3" />
-              <h3 className="text-2xl font-bold text-calm-900 dark:text-calm-100 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-wellness-200/30 dark:border-calm-700/30 rounded-2xl p-4 md:p-6 text-center shadow-lg"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-wellness-400 to-serenity-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Calendar className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-wellness-800 dark:text-wellness-300 mb-1">
                 {analysis.total_events}
               </h3>
-              <p className="text-calm-600 dark:text-calm-300">Total Events</p>
-            </div>
+              <p className="text-xs md:text-sm text-calm-600 dark:text-calm-400">Total Events</p>
+            </motion.div>
 
-            <div className="card text-center">
-              <Heart className="h-8 w-8 text-red-500 mx-auto mb-3" />
-              <h3 className="text-2xl font-bold text-calm-900 dark:text-calm-100 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-accent-200/30 dark:border-calm-700/30 rounded-2xl p-4 md:p-6 text-center shadow-lg"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-accent-400 to-warmth-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Shield className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-accent-800 dark:text-accent-300 mb-1">
                 {analysis.traumatic_events_count}
               </h3>
-              <p className="text-calm-600 dark:text-calm-300">Traumatic Events</p>
-            </div>
+              <p className="text-xs md:text-sm text-calm-600 dark:text-calm-400">Healing Focus</p>
+            </motion.div>
 
-            <div className="card text-center">
-              <TrendingUp className="h-8 w-8 text-green-500 mx-auto mb-3" />
-              <h3 className="text-2xl font-bold text-calm-900 dark:text-calm-100 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-serenity-200/30 dark:border-calm-700/30 rounded-2xl p-4 md:p-6 text-center shadow-lg"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-serenity-400 to-wellness-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Sparkles className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-serenity-800 dark:text-serenity-300 mb-1">
                 {analysis.positive_events_count}
               </h3>
-              <p className="text-calm-600 dark:text-calm-300">Positive Events</p>
-            </div>
+              <p className="text-xs md:text-sm text-calm-600 dark:text-calm-400">Positive Events</p>
+            </motion.div>
 
-            <div className="card text-center">
-              <Target className="h-8 w-8 text-orange-500 mx-auto mb-3" />
-              <h3 className="text-2xl font-bold text-calm-900 dark:text-calm-100 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-warmth-200/30 dark:border-calm-700/30 rounded-2xl p-4 md:p-6 text-center shadow-lg"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-warmth-400 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Target className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-warmth-800 dark:text-warmth-300 mb-1">
                 {analysis.unresolved_events_count}
               </h3>
-              <p className="text-calm-600 dark:text-calm-300">Unresolved</p>
-            </div>
+              <p className="text-xs md:text-sm text-calm-600 dark:text-calm-400">In Progress</p>
+            </motion.div>
           </motion.div>
         )}
 
@@ -245,56 +290,66 @@ const TraumaMappingPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6"
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8"
         >
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveView('timeline')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeView === 'timeline'
-                  ? 'bg-primary-500 text-white'
-                  : 'bg-white dark:bg-calm-800 text-calm-600 dark:text-calm-300 hover:bg-primary-50 dark:hover:bg-calm-700'
-              }`}
-            >
-              <Calendar className="h-4 w-4 inline mr-2" />
-              Timeline
-            </button>
-            <button
-              onClick={() => setActiveView('heatmap')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeView === 'heatmap'
-                  ? 'bg-primary-500 text-white'
-                  : 'bg-white dark:bg-calm-800 text-calm-600 dark:text-calm-300 hover:bg-primary-50 dark:hover:bg-calm-700'
-              }`}
-            >
-              <BarChart3 className="h-4 w-4 inline mr-2" />
-              Emotion Heatmap
-            </button>
-            <button
-              onClick={() => setActiveView('insights')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                activeView === 'insights'
-                  ? 'bg-primary-500 text-white'
-                  : 'bg-white dark:bg-calm-800 text-calm-600 dark:text-calm-300 hover:bg-primary-50 dark:hover:bg-calm-700'
-              }`}
-            >
-              <Lightbulb className="h-4 w-4 inline mr-2" />
-              AI Insights
-            </button>
+          <div className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm rounded-2xl p-1 shadow-lg border border-wellness-200/30 dark:border-calm-700/30">
+            <div className="flex flex-wrap gap-1">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveView('timeline')}
+                className={`px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 touch-target ${
+                  activeView === 'timeline'
+                    ? 'bg-gradient-to-r from-wellness-400 to-serenity-500 text-white shadow-lg'
+                    : 'text-calm-600 dark:text-calm-400 hover:text-wellness-600 dark:hover:text-wellness-400'
+                }`}
+              >
+                <Calendar className="h-4 w-4" />
+                <span className="hidden sm:inline">Timeline</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveView('heatmap')}
+                className={`px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 touch-target ${
+                  activeView === 'heatmap'
+                    ? 'bg-gradient-to-r from-serenity-400 to-accent-500 text-white shadow-lg'
+                    : 'text-calm-600 dark:text-calm-400 hover:text-serenity-600 dark:hover:text-serenity-400'
+                }`}
+              >
+                <BarChart3 className="h-4 w-4" />
+                <span className="hidden sm:inline">Heatmap</span>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveView('insights')}
+                className={`px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 touch-target ${
+                  activeView === 'insights'
+                    ? 'bg-gradient-to-r from-accent-400 to-warmth-500 text-white shadow-lg'
+                    : 'text-calm-600 dark:text-calm-400 hover:text-accent-600 dark:hover:text-accent-400'
+                }`}
+              >
+                <Lightbulb className="h-4 w-4" />
+                <span className="hidden sm:inline">AI Insights</span>
+              </motion.button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-calm-500" />
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-warmth-400 to-accent-400 p-2 rounded-xl">
+              <Filter className="h-4 w-4 text-white" />
+            </div>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="input-field min-w-[150px]"
+              className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-warmth-200/30 dark:border-calm-700/30 rounded-2xl px-4 py-3 text-calm-800 dark:text-calm-200 font-medium focus:outline-none focus:ring-2 focus:ring-warmth-400/50 min-w-[150px] touch-target"
             >
               <option value="all">All Events</option>
-              <option value="traumatic">Traumatic</option>
+              <option value="traumatic">Healing Focus</option>
               <option value="positive">Positive</option>
-              <option value="unresolved">Unresolved</option>
+              <option value="unresolved">In Progress</option>
               <option value="milestone">Milestones</option>
             </select>
           </div>
@@ -304,8 +359,8 @@ const TraumaMappingPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          className="card p-6"
+          transition={{ duration: 0.5, delay: 0.9 }}
+          className="bg-white/70 dark:bg-calm-800/70 backdrop-blur-sm border border-wellness-200/30 dark:border-calm-700/30 rounded-3xl p-6 shadow-xl"
         >
           <AnimatePresence mode="wait">
             {activeView === 'timeline' && (
@@ -345,59 +400,104 @@ const TraumaMappingPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="space-y-6"
+                className="space-y-8"
               >
                 {/* AI Insights */}
                 {analysis.ai_insights && analysis.ai_insights.length > 0 && (
-                  <div>
-                    <h3 className="text-xl font-semibold text-calm-900 dark:text-calm-100 mb-4">
-                      AI-Generated Insights
-                    </h3>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <div className="flex items-center mb-6">
+                      <div className="bg-gradient-to-br from-wellness-400 to-serenity-400 p-2 rounded-xl mr-3">
+                        <Brain className="h-5 w-5 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-wellness-800 dark:text-wellness-300">
+                        AI-Generated Insights
+                      </h3>
+                    </div>
                     <div className="grid gap-4">
                       {analysis.ai_insights.map((insight, index) => (
-                        <div key={index} className="bg-primary-50 dark:bg-primary-900/20 p-4 rounded-lg">
-                          <p className="text-calm-800 dark:text-calm-200">{insight}</p>
-                        </div>
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="bg-wellness-50/70 dark:bg-wellness-900/20 backdrop-blur-sm border border-wellness-200/30 dark:border-wellness-700/30 p-6 rounded-2xl"
+                        >
+                          <p className="text-wellness-800 dark:text-wellness-300 leading-relaxed">{insight}</p>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {/* Recommendations */}
                 {analysis.recommendations && analysis.recommendations.length > 0 && (
-                  <div>
-                    <h3 className="text-xl font-semibold text-calm-900 dark:text-calm-100 mb-4">
-                      Healing Recommendations
-                    </h3>
-                    <div className="grid gap-3">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="flex items-center mb-6">
+                      <div className="bg-gradient-to-br from-serenity-400 to-wellness-400 p-2 rounded-xl mr-3">
+                        <Heart className="h-5 w-5 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-serenity-800 dark:text-serenity-300">
+                        Healing Recommendations
+                      </h3>
+                    </div>
+                    <div className="grid gap-4">
                       {analysis.recommendations.map((recommendation, index) => (
-                        <div key={index} className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                          <p className="text-calm-800 dark:text-calm-200">{recommendation}</p>
-                        </div>
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="bg-serenity-50/70 dark:bg-serenity-900/20 backdrop-blur-sm border border-serenity-200/30 dark:border-serenity-700/30 p-6 rounded-2xl"
+                        >
+                          <p className="text-serenity-800 dark:text-serenity-300 leading-relaxed">{recommendation}</p>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {/* Patterns */}
                 {analysis.patterns && analysis.patterns.length > 0 && (
-                  <div>
-                    <h3 className="text-xl font-semibold text-calm-900 dark:text-calm-100 mb-4">
-                      Identified Patterns
-                    </h3>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className="flex items-center mb-6">
+                      <div className="bg-gradient-to-br from-accent-400 to-warmth-400 p-2 rounded-xl mr-3">
+                        <Activity className="h-5 w-5 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-accent-800 dark:text-accent-300">
+                        Identified Patterns
+                      </h3>
+                    </div>
                     <div className="grid gap-4">
                       {analysis.patterns.map((pattern, index) => (
-                        <div key={index} className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg">
-                          <h4 className="font-medium text-calm-900 dark:text-calm-100 mb-2">
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="bg-accent-50/70 dark:bg-accent-900/20 backdrop-blur-sm border border-accent-200/30 dark:border-accent-700/30 p-6 rounded-2xl"
+                        >
+                          <h4 className="font-medium text-accent-800 dark:text-accent-300 mb-3 text-lg">
                             {pattern.pattern_name || `Pattern ${index + 1}`}
                           </h4>
-                          <p className="text-calm-700 dark:text-calm-300 text-sm">
+                          <p className="text-accent-700 dark:text-accent-400 leading-relaxed">
                             {pattern.description || 'Pattern analysis available'}
                           </p>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 )}
               </motion.div>
             )}

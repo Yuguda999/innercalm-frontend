@@ -309,7 +309,7 @@ const VoiceJournalPage: React.FC = () => {
       const formData = new FormData();
       formData.append('audio_file', audioBlob, 'recording.webm');
 
-      const response = await fetch('http://localhost:8000/voice-analysis/analyze-audio', {
+      const response = await fetch('http://localhost:8000/api/voice-analysis/analyze-audio', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
